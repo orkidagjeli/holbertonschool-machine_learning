@@ -3,6 +3,7 @@
 
 
 def mat_mul(mat1, mat2):
+    """ Multiplication of 2 matrix"""
     if len(mat1[0]) != len(mat2):
         return None
 
