@@ -4,7 +4,5 @@
 
 
 def np_elementwise(mat1, mat2):
-    """element-wise addition, subtraction,multiplication, and division"""
-    mat1 = np.array(mat1)
-    mat2 = np.array(mat2)
+    """Element-wise addition, subtraction,multiplication, and division"""
     return (mat1 + mat2, mat1 - mat2, mat1 * mat2, mat1 / mat2)
