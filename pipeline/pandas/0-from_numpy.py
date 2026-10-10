@@ -4,5 +4,5 @@
 
 def from_numpy(array):
     """creates a pd.DataFrame from a np.ndarray"""
-    columns = list(string.ascii_uppercase[:array.shape[1]])
+    columns = [chr(65 + i) for i in range(array.shape[1])]
     return pd.DataFrame(array, columns=columns)
