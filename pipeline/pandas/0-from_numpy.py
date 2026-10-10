@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Write a function  that creates a pd.DataFrame from a np.ndarray"""
+import pandas as pd
 
 
 def from_numpy(array):
