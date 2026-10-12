@@ -7,6 +7,9 @@ index = __import__('10-index').index
 
 def hierarchy(df1, df2):
     """Concatenate and rearrange the Bitstamp and Coinbase dataframes"""
+    df1 = df1.set_index('Timestamp')
+    df2 = df2.set_index('Timestamp')
+
     df1 = df1.loc[1417411980:1417417980]
     df2 = df2.loc[1417411980:1417417980]
 
