@@ -1,34 +1,39 @@
 #!/usr/bin/env python3
-"""Plot C-14 exponential decay with a logarithmic y-axis."""
+"""Plot the exponential decay of two radioactive elements."""
 import numpy as np
 import matplotlib.pyplot as plt
 
 
-def change_scale():
-    """Display exponential decay using a logarithmic scale."""
-    x = np.arange(0, 28651, 5730)
-    r = np.log(0.5)
-    t = 5730
-    y = np.exp((r / t) * x)
+def two():
+    """Plot C-14 and Ra-266 decay over time."""
+    x = np.arange(0, 20001, 1000)
+
+    # Calculate the decay of Carbon-14
+    c14 = np.exp((np.log(0.5) / 5730) * x)
+
+    # Calculate the decay of Ra-266
+    ra266 = np.exp((np.log(0.5) / 1600) * x)
+
+    # Create the figure
     plt.figure(figsize=(6.4, 4.8))
 
-    # Plot x against y as a line graph
-    plt.plot(x, y)
+    # Plot C-14 as a red dotted line
+    plt.plot(x, c14, 'r:', label='C-14')
 
-    # Label the x-axis
+    # Plot Ra-266 as a green solid line
+    plt.plot(x, ra266, 'g-', label='Ra-266')
+
+    # Add axis labels and title
     plt.xlabel('Time (years)')
-
-    # Label the y-axis
     plt.ylabel('Fraction Remaining')
+    plt.title('Exponential Decay of Radioactive Elements')
 
-    # Set the graph title
-    plt.title('Exponential Decay of C-14')
+    # Set axis limits
+    plt.xlim(0, 20000)
+    plt.ylim(0, 1)
 
-    # Set the y-axis to a logarithmic scale
-    plt.yscale('log')
+    # Display the legend in the upper right
+    plt.legend(loc='upper right')
 
-    # Set the x-axis range from 0 to 28650
-    plt.xlim(0, 28650)
-
-    # Display the graph
+    # Display the plot
     plt.show()
