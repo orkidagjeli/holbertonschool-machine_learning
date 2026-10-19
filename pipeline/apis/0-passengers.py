@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """List starships that can carry a given number of passengers."""
 
