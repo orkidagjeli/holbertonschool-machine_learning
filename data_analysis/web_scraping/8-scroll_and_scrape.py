@@ -18,30 +18,32 @@ def scroll_and_scrape(url, scroll_pause=2.0):
         driver.get(url)
         time.sleep(scroll_pause)
 
-        # Scroll until the page height stops increasing.
-        previous_height = driver.execute_script(
-            'return document.body.scrollHeight'
+        by = webdriver.common.by.By
+
+        # Scroll until the page stops growing or 50 rounds are reached.
+        last_height = driver.execute_script(
+            "return document.body.scrollHeight"
         )
 
-        while True:
+        for _ in range(50):
             driver.execute_script(
-                'window.scrollTo(0, document.body.scrollHeight)'
+                "window.scrollTo(0, document.body.scrollHeight);"
             )
-            time.sleep(scroll_pause)
+            time.sleep(min(scroll_pause, 0.5))
 
-            current_height = driver.execute_script(
-                'return document.body.scrollHeight'
+            new_height = driver.execute_script(
+                "return document.body.scrollHeight"
             )
 
-            if current_height <= previous_height:
+            if new_height == last_height:
                 break
 
-            previous_height = current_height
+            last_height = new_height
 
+        # Extract products and skip duplicates.
         products = []
         seen = set()
 
-        by = webdriver.common.by.By
         items = driver.find_elements(
             by.CSS_SELECTOR, 'div.thumbnail'
         )
