@@ -46,3 +46,16 @@ class Binomial:
 
         # Calculate the probability
         return coefficient * (self.p ** k) * ((1 - self.p) ** (self.n - k))
+
+    def cdf(self, k):
+        """Calculate the CDF for a given number of successes."""
+        k = int(k)
+
+        if k < 0 or k > self.n:
+            return 0
+
+        probability = 0
+        for i in range(k + 1):
+            probability += self.pmf(i)
+
+        return probability
