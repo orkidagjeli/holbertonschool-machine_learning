@@ -1,20 +1,18 @@
 #!/usr/bin/env python3
-"""Normal distribution class."""
+"""Normal distribution"""
 
 
 class Normal:
-    """Represents a normal distribution."""
+    """Normal distribution"""
 
     def __init__(self, data=None, mean=0., stddev=1.):
-        """Initialize the normal distribution."""
-
+        """Sets mean and stddev, from data if given"""
         if data is None:
             if stddev <= 0:
                 raise ValueError("stddev must be a positive value")
 
             self.mean = float(mean)
             self.stddev = float(stddev)
-
         else:
             if not isinstance(data, list):
                 raise TypeError("data must be a list")
@@ -22,42 +20,37 @@ class Normal:
             if len(data) < 2:
                 raise ValueError("data must contain multiple values")
 
-            self.mean = float(sum(data) / len(data))
-
+            self.mean = sum(data) / len(data)
             variance = sum(
                 (x - self.mean) ** 2 for x in data
             ) / len(data)
-
-            self.stddev = float(variance ** 0.5)
+            self.stddev = variance ** 0.5
 
     def z_score(self, x):
-        """Calculate the z-score of a given x-value."""
+        """z-score of x"""
         return (x - self.mean) / self.stddev
 
     def x_value(self, z):
-        """Calculate the x-value of a given z-score."""
-        return self.mean + (z * self.stddev)
+        """x-value of z"""
+        return z * self.stddev + self.mean
 
-    def erf(self, x):
-        """Calculate the error function."""
+    def pdf(self, x):
+        """PDF at x"""
         pi = 3.1415926536
-        total = 0.0
+        e = 2.7182818285
 
-        for n in range(100):
-            total += ((-1) ** n * x ** (2 * n + 1)) / (
-                self.factorial(n) * (2 * n + 1)
-            )
-
-        return (2 / (pi ** 0.5)) * total
-
-    def factorial(self, n):
-        """Calculate the factorial of a number."""
-        result = 1
-        for i in range(1, n + 1):
-            result *= i
-        return result
+        fraction = 1 / (self.stddev * (2 * pi) ** 0.5)
+        expo = -0.5 * self.z_score(x) ** 2
+        return fraction * e ** expo
 
     def cdf(self, x):
-        """Calculate the CDF of a given x-value."""
-        z = (x - self.mean) / (self.stddev * (2 ** 0.5))
-        return 0.5 * (1 + self.erf(z))
+        """CDF at x"""
+        pi = 3.1415926536
+        t = (x - self.mean) / (self.stddev * 2 ** 0.5)
+
+        erf = (2 / pi ** 0.5) * (
+            t - t ** 3 / 3 + t ** 5 / 10
+            - t ** 7 / 42 + t ** 9 / 216
+        )
+
+        return 0.5 * (1 + erf)
