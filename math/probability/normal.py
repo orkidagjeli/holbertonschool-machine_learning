@@ -40,24 +40,15 @@ class Normal:
 
     def erf(self, x):
         """Approximate the error function."""
-        sign = 1 if x >= 0 else -1
-        x = abs(x)
+        pi = 3.1415926536
+        result = 0.0
+        term = x
 
-        a1 = 0.254829592
-        a2 = -0.284496736
-        a3 = 1.421413741
-        a4 = -1.453152027
-        a5 = 1.061405429
-        p = 0.3275911
+        for n in range(100):
+            result += term
+            term *= -(x ** 2) / (n + 1.5)
 
-        t = 1 / (1 + p * x)
-
-        y = 1 - (
-            (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1)
-            * t * (2.7182818285 ** (-x * x))
-        )
-
-        return sign * y
+        return (2 / (pi ** 0.5)) * result
 
     def cdf(self, x):
         """Calculate the CDF of a given x-value."""
