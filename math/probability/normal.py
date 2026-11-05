@@ -30,7 +30,7 @@ class Normal:
 
             self.stddev = float(variance ** 0.5)
 
-            if self.stddev == 0:
+            if self.stddev <= 0:
                 raise ValueError("stddev must be a positive value")
 
     def z_score(self, x):
@@ -46,7 +46,9 @@ class Normal:
         pi = 3.1415926536
         e = 2.7182818285
 
-        return (1 / (self.stddev * (2 * pi) ** 0.5)) * (
+        return (
+            1 / (self.stddev * (2 * pi) ** 0.5)
+        ) * (
             e ** (-0.5 * ((x - self.mean) / self.stddev) ** 2)
         )
 
