@@ -21,3 +21,13 @@ class Exponential:
                 raise ValueError("data must contain multiple values")
 
             self.lambtha = 1 / (sum(data) / len(data))
+
+    def pdf(self, x):
+        """Calculate the value of the PDF for a given x."""
+
+        if x < 0:
+            return 0
+
+        e = 2.7182818285
+
+        return self.lambtha * (e ** (-self.lambtha * x))
