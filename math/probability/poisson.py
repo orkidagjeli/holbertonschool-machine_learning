@@ -31,7 +31,6 @@ class Poisson:
             return 0
 
         e = 2.7182818285
-
         exp_value = e ** (-self.lambtha)
         numerator = self.lambtha ** k
 
@@ -40,3 +39,18 @@ class Poisson:
             factorial *= i
 
         return (exp_value * numerator) / factorial
+
+    def cdf(self, k):
+        """Calculate the value of the CDF for a given k."""
+
+        k = int(k)
+
+        if k < 0:
+            return 0
+
+        result = 0
+
+        for i in range(k + 1):
+            result += self.pmf(i)
+
+        return result
