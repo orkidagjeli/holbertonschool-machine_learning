@@ -30,6 +30,9 @@ class Normal:
 
             self.stddev = float(variance ** 0.5)
 
+            if self.stddev == 0:
+                raise ValueError("stddev must be a positive value")
+
     def z_score(self, x):
         """Calculate the z-score of a given x-value."""
         return (x - self.mean) / self.stddev
@@ -49,15 +52,16 @@ class Normal:
 
     def cdf(self, x):
         """Calculate the CDF for a given x-value."""
-        z = (x - self.mean) / (self.stddev * (2 ** 0.5))
+        e = 2.7182818285
 
+        z = (x - self.mean) / (self.stddev * (2 ** 0.5))
         t = 1 / (1 + 0.3275911 * abs(z))
 
         erf = 1 - (
             (((((1.061405429 * t - 1.453152027) * t)
             + 1.421413741) * t - 0.284496736) * t
             + 0.254829592) * t
-            * 2.718281828459045 ** (-z ** 2)
+            * e ** (-z ** 2)
         )
 
         if z < 0:
