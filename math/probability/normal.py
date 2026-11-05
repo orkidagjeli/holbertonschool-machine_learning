@@ -39,16 +39,23 @@ class Normal:
         return self.mean + (z * self.stddev)
 
     def erf(self, x):
-        """Approximate the error function."""
+        """Calculate the error function."""
         pi = 3.1415926536
-        result = 0.0
-        term = x
+        total = 0.0
 
         for n in range(100):
-            result += term
-            term *= -(x ** 2) / (n + 1.5)
+            total += ((-1) ** n * x ** (2 * n + 1)) / (
+                self.factorial(n) * (2 * n + 1)
+            )
 
-        return (2 / (pi ** 0.5)) * result
+        return (2 / (pi ** 0.5)) * total
+
+    def factorial(self, n):
+        """Calculate the factorial of a number."""
+        result = 1
+        for i in range(1, n + 1):
+            result *= i
+        return result
 
     def cdf(self, x):
         """Calculate the CDF of a given x-value."""
