@@ -32,15 +32,11 @@ class Poisson:
 
         e = 2.7182818285
 
-        # Calculate e^(-lambtha)
         exp_value = e ** (-self.lambtha)
-
-        # Calculate lambtha^k
         numerator = self.lambtha ** k
 
-        # Calculate k! (factorial)
         factorial = 1
         for i in range(1, k + 1):
             factorial *= i
 
-    return (exp_value * numerator) / factorial
+        return (exp_value * numerator) / factorial
