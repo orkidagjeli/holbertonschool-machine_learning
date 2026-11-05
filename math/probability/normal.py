@@ -30,9 +30,6 @@ class Normal:
 
             self.stddev = float(variance ** 0.5)
 
-            if self.stddev <= 0:
-                raise ValueError("stddev must be a positive value")
-
     def z_score(self, x):
         """Calculate the z-score of a given x-value."""
         return (x - self.mean) / self.stddev
@@ -41,32 +38,28 @@ class Normal:
         """Calculate the x-value of a given z-score."""
         return self.mean + (z * self.stddev)
 
-    def pdf(self, x):
-        """Calculate the PDF for a given x-value."""
-        pi = 3.1415926536
-        e = 2.7182818285
+    def erf(self, x):
+        """Approximate the error function."""
+        sign = 1 if x >= 0 else -1
+        x = abs(x)
 
-        return (
-            1 / (self.stddev * (2 * pi) ** 0.5)
-        ) * (
-            e ** (-0.5 * ((x - self.mean) / self.stddev) ** 2)
+        a1 = 0.254829592
+        a2 = -0.284496736
+        a3 = 1.421413741
+        a4 = -1.453152027
+        a5 = 1.061405429
+        p = 0.3275911
+
+        t = 1 / (1 + p * x)
+
+        y = 1 - (
+            (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1)
+            * t * (2.7182818285 ** (-x * x))
         )
+
+        return sign * y
 
     def cdf(self, x):
-        """Calculate the CDF for a given x-value."""
-        e = 2.7182818285
-
+        """Calculate the CDF of a given x-value."""
         z = (x - self.mean) / (self.stddev * (2 ** 0.5))
-        t = 1 / (1 + 0.3275911 * abs(z))
-
-        erf = 1 - (
-            (((((1.061405429 * t - 1.453152027) * t)
-            + 1.421413741) * t - 0.284496736) * t
-            + 0.254829592) * t
-            * e ** (-z ** 2)
-        )
-
-        if z < 0:
-            erf = -erf
-
-        return 0.5 * (1 + erf)
+        return 0.5 * (1 + self.erf(z))
