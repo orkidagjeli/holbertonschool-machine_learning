@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Normal distribution class."""
 
-import math
-
 
 class Normal:
     """Represents a normal distribution."""
@@ -52,4 +50,17 @@ class Normal:
     def cdf(self, x):
         """Calculate the CDF for a given x-value."""
         z = (x - self.mean) / (self.stddev * (2 ** 0.5))
-        return 0.5 * (1 + math.erf(z))
+
+        t = 1 / (1 + 0.3275911 * abs(z))
+
+        erf = 1 - (
+            (((((1.061405429 * t - 1.453152027) * t)
+            + 1.421413741) * t - 0.284496736) * t
+            + 0.254829592) * t
+            * 2.718281828459045 ** (-z ** 2)
+        )
+
+        if z < 0:
+            erf = -erf
+
+        return 0.5 * (1 + erf)
