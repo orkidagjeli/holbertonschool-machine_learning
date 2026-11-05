@@ -30,13 +30,10 @@ class Poisson:
         if k < 0:
             return 0
 
-        # Calculate e^(-lambtha) using a series expansion
-        exp_value = 1.0
-        term = 1.0
+        e = 2.7182818285
 
-        for i in range(1, 100):
-            term *= -self.lambtha / i
-            exp_value += term
+        # Calculate e^(-lambtha)
+        exp_value = e ** (-self.lambtha)
 
         # Calculate lambtha^k
         numerator = self.lambtha ** k
@@ -46,4 +43,4 @@ class Poisson:
         for i in range(1, k + 1):
             factorial *= i
 
-        return (exp_value * numerator) / factorial
+    return (exp_value * numerator) / factorial
